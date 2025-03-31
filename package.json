@@ -19,7 +19,10 @@
     "index": "node ./src/index.js",
     "ej01": "node ./src/ej01.js",
     "ej02": "node ./src/ej02.js",
-    "ej03": "node ./src/ej02.js"
+    "ej03": "node ./src/ej03.js",
+    "ej04": "node ./src/ej04.js"
   },
-  "devDependencies": {}
+  "dependencies": {
+    "tp01_daii": "file:"
+  }
 }
