@@ -94,14 +94,14 @@ app.get("/validarfecha/:ano/:mes/:dia", (req, res) => {
     let texto = req.query.search;
     let pagina = req.query.p;
 
-    res.status(400).send(await OMDBSearchByPage(texto,pagina));
+    res.status(200).send(await OMDBSearchByPage(texto,pagina));
 
     });
 
 
     app.get('/omdb/searchbycomplete', async (req, res) => {
         let texto = req.query.search;
-     res.status(400).send(await OMDBSearchComplete(texto));
+     res.status(200).send(await OMDBSearchComplete(texto));
     
     });
         
