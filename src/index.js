@@ -1,6 +1,8 @@
 
 import express from "express"; // hacer npm i express
 import cors from "cors"; // hacer npm i cors
+import {sumar, restar, multiplicar, dividir} from "./modules/matematica.js"
+import {OMDBSearchByPage, OMDBSearchComplete, OMDBGetByImdbID} from "./modules/omdb-wrapper.js"
 const app = express();
 const port = 3000; // El puerto 3000 (http://localhost:3000)
 // Agrego los Middlewares
@@ -88,11 +90,32 @@ app.get("/validarfecha/:ano/:mes/:dia", (req, res) => {
       });
 
 //C
-app.get('/omdb/searchbypage', async (req, res) => {
- 
-    let resultado = await metodoAsincronico();
+    app.get('/omdb/searchbypage', async (req, res) => {
+    let texto = req.query.search;
+    let pagina = req.query.p;
 
-    })
+    res.status(400).send(await OMDBSearchByPage(texto,pagina));
+
+    });
+
+
+    app.get('/omdb/searchbycomplete', async (req, res) => {
+        let texto = req.query.search;
+     res.status(400).send(await OMDBSearchComplete(texto));
+    
+    });
+        
+        
+    app.get('/omdb/getbyomdbid', async (req, res) => {
+
+    let id = req.query.omdbID;
+    res.status(200).send(await OMDBGetByImdbID(id));
+        
+    });
+
+    //D
+
+
 //
 // Inicio el Server y lo pongo a escuchar.
 //
