@@ -3,14 +3,12 @@ import express from "express"; // hacer npm i express
 import cors from "cors"; // hacer npm i cors
 import {sumar, restar, multiplicar, dividir} from "./modules/matematica.js"
 import {OMDBSearchByPage, OMDBSearchComplete, OMDBGetByImdbID} from "./modules/omdb-wrapper.js"
+import Alumno from "./models/alumno.js";
 const app = express();
 const port = 3000; // El puerto 3000 (http://localhost:3000)
 // Agrego los Middlewares
 app.use(cors()); // Middleware de CORS
 app.use(express.json()); // Middleware para parsear y comprender JSON
-//
-// Aca pongo todos los EndPoints
-//
 
 //A
 app.get('/', (req, res) => { // EndPoint "/"
@@ -114,7 +112,37 @@ app.get("/validarfecha/:ano/:mes/:dia", (req, res) => {
     });
 
     //D
+    const alumnosArray = [];
+    alumnosArray.push(new Alumno("Esteban Dido" , "22888444", 20));
+    alumnosArray.push(new Alumno("Matias Queroso", "28946255", 51));
+    alumnosArray.push(new Alumno("Elba Calao" , "32623391", 18));
 
+    app.get('/alumnos', (req, res) => { // EndPoint "/"
+      res.status(200).send(alumnosArray);
+      })
+
+    app.get('/alumnos/:dni', (req, res) => { // EndPoint "/saludar"
+      const dni = req.params.dni;
+      const index = alumnosArray.findIndex(alumno => alumno.dni === dni);
+    
+      if (index !== -1) {
+        res.status(200).json(alumnosArray[index]);
+      } else {
+        res.status(404).json({ mensaje: `Alumno con DNI ${dni} no encontrado.` });
+      }
+  })
+
+    app.post("/alumnos", (req, res) => {
+      const { username, dni, edad } = req.body;
+
+      if (!username || !dni || !edad) {
+        return res.status(400).json({ mensaje: "Faltan datos obligatorios." });
+      }
+    
+      const nuevoAlumno = new Alumno(username, dni, edad);
+      alumnosArray.push(nuevoAlumno);
+
+    })
 
 //
 // Inicio el Server y lo pongo a escuchar.
